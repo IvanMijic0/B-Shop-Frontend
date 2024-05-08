@@ -49,7 +49,7 @@ const CheckoutPage = () => {
 	};
 
 	const calculateTotal = () => {
-    	return cartItems.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2);
+    	return cartItems.reduce((total: number, item: { price: number; quantity: number; }) => total + item.price * item.quantity, 0).toFixed(2);
 	};
 
 	const getStepContent = (step: number) => {

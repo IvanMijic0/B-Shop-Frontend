@@ -16,6 +16,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import PurchaseConfirmationPage from './pages/PurchaseConfimationPage';
 
 
+
 const App = () => {
   return (
       

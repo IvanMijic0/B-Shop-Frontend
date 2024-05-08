@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/cartSlice';
-import products from '../data'; // Adjust the path as needed
+import products from '../data/data'; // Adjust the path as needed
 
 const ProductPage = () => {
   const { id } = useParams();
