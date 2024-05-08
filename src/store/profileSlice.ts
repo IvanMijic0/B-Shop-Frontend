@@ -15,9 +15,9 @@ const initialState: ProfileState = {
   username: "Alice",
   email: "alice@example.com",
   avatarUrl: "/img/avatar.png", 
-  bio: "",
-  location: "",
-  interests: "",
+  bio: "some bio text here",
+  location: "Somewhere, World",
+  interests: "Food, Music, Travel",
 };
 
 const profileSlice = createSlice({
