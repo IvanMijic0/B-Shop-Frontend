@@ -7,6 +7,8 @@ import {
     Paper
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { clearCart } from '../store/cartSlice';
 
 const steps = ['Shipping Address', 'Payment Details', 'Review Your Order'];
 
@@ -30,11 +32,13 @@ const CheckoutPage = () => {
 	});
 	const cartItems = useSelector((state: RootState) => state.cart.items);
 	const navigate = useNavigate();
+    const dispatch = useDispatch();
 
 	const handleNext = () => {
     	if (activeStep === steps.length - 1) {
         	console.log("Finalize Purchase with:", { shippingDetails, paymentDetails });
-        	navigate('/purchase-confirmation');
+        	dispatch(clearCart());
+            navigate('/purchase-confirmation');
     	} else {
         	setActiveStep((prevActiveStep) => prevActiveStep + 1);
     	}

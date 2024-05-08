@@ -1,6 +1,6 @@
 // src/pages/ProductPage.tsx
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/cartSlice';
 import products from '../data'; // Adjust the path as needed
@@ -8,6 +8,7 @@ import products from '../data'; // Adjust the path as needed
 const ProductPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const product = products.find(p => p.id === Number(id));
 
   const handleAddToCart = () => {
@@ -19,6 +20,11 @@ const ProductPage = () => {
     }
   };
 
+  const handleBuyNow = () => {
+    handleAddToCart();  
+    navigate('/checkout');  
+  };
+
   return (
     <div>
       {product ? (
@@ -28,6 +34,7 @@ const ProductPage = () => {
           <p>{product.description}</p>
           <p>${product.price}</p>
           <button onClick={handleAddToCart}>Add to Cart</button>
+          <button onClick={handleBuyNow}>Buy Now</button>
         </div>
       ) : (
         <p>Product not found</p>
