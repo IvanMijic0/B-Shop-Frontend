@@ -5,6 +5,9 @@ interface ProfileState {
   username: string;
   email: string;
   avatarUrl: string;
+  bio: string;
+  location: string;
+  interests: string;
 }
 
 
@@ -12,6 +15,9 @@ const initialState: ProfileState = {
   username: "Alice",
   email: "alice@example.com",
   avatarUrl: "/img/avatar.png", 
+  bio: "",
+  location: "",
+  interests: "",
 };
 
 const profileSlice = createSlice({
@@ -31,11 +37,14 @@ const profileSlice = createSlice({
     },
     updateEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
-    }
+    },
+    updateProfile: (state, action: PayloadAction<Partial<ProfileState>>) => {
+      return { ...state, ...action.payload };
+    },
   },
 });
 
 
-export const { setProfile, updateAvatar, updateUsername, updateEmail } = profileSlice.actions;
+export const { setProfile, updateAvatar, updateUsername, updateEmail, updateProfile } = profileSlice.actions;
 
 export default profileSlice.reducer;
