@@ -2,12 +2,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import authReducer from './authSlice';
+import cartReducer from './cartSlice';
 
 const store = configureStore({
     reducer: {
-        auth: authReducer,
+      auth: authReducer,
+      cart: cartReducer,
     },
-});
+  });
 
 // Define RootState type which represents the state of the entire Redux store
 export type RootState = ReturnType<typeof store.getState>;

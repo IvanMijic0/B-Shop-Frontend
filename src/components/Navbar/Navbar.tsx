@@ -26,7 +26,7 @@ const Navbar = () => {
     const handleLogout = () => {
         dispatch(logout());
         navigate('/');
-        handleClose();  // Close menu upon logout
+        handleClose();  
     };
 
     return (
@@ -69,7 +69,7 @@ const Navbar = () => {
                             <Button color="inherit" component={Link} to="/register">Register</Button>
                         </>
                     )}
-                    <IconButton edge="start" color="inherit" aria-label="cart">
+                    <IconButton edge="start" color="inherit" aria-label="cart" sx={{ ml: 1 }} onClick={() => navigate('/cart')}>
                         <ShoppingCartIcon />
                     </IconButton>
                 </Toolbar>

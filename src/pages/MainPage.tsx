@@ -12,14 +12,14 @@ interface Product {
   id: number;
   name: string;
   description: string;
-  price: string;  
+  price: number;  
   image: string;
 }
 
 const MainPage = () => {
     const navigate = useNavigate();
   
-    const handleCardClick = (productId) => {
+    const handleCardClick = (productId: number) => {
       navigate(`/product/${productId}`);
     };
   
@@ -46,7 +46,7 @@ const MainPage = () => {
                     {product.name}
                   </Typography>
                   <Typography variant="h6" color="textPrimary">
-                    {product.price}
+                    ${product.price}
                   </Typography>
                 </CardContent>
                 </CardActionArea>
