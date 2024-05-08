@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, Box, Divider, Grid, IconButton, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider, Grid, IconButton, Input, TextField, Typography, Snackbar } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { RootState } from '../store';
-import { updateAvatar } from '../store/profileSlice';
+import { updateAvatar, updateProfile } from '../store/profileSlice';
 
 const ProfilePage = () => {
   const user = useSelector((state: RootState) => state.profile);
   const dispatch = useDispatch();
   const [avatar, setAvatar] = useState(user.avatarUrl);
+  const [bio, setBio] = useState(user.bio);
+  const [location, setLocation] = useState(user.location);
+  const [interests, setInterests] = useState(user.interests);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) {
+    if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result as string;
@@ -21,6 +25,15 @@ const ProfilePage = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleSaveProfile = () => {
+    dispatch(updateProfile({ bio, location, interests, avatarUrl: avatar }));
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -36,18 +49,9 @@ const ProfilePage = () => {
           borderRadius: '5px',
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-          }}
-        >
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', cursor: 'pointer' }}>
           <input
-            accept="image/*"
+            accept="image/jpeg,image/png"
             style={{ display: 'none' }}
             id="raised-button-file"
             type="file"
@@ -65,15 +69,46 @@ const ProfilePage = () => {
           src={avatar}
           sx={{ width: 56, height: 56, mt: 2 }}
         />
-        <Typography sx={{padding: '10px'}}>Hello, {user.username ? user.username : 'No User Logged In'}! 👋</Typography>
+        <Typography sx={{ mt: 2 }}>Hello, {user.username ? user.username : 'No User Logged In'}! 👋</Typography>
+        <TextField
+          label="Bio"
+          multiline
+          rows={4}
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          variant="outlined"
+          fullWidth
+          sx={{ mt: 2 }}
+        />
+        <TextField
+          label="Location"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          variant="outlined"
+          fullWidth
+          sx={{ mt: 2 }}
+        />
+        <TextField
+          label="Interests"
+          value={interests}
+          onChange={(e) => setInterests(e.target.value)}
+          variant="outlined"
+          fullWidth
+          sx={{ mt: 2, mb: 2 }}
+        />
+        <Button variant="contained" color="primary" onClick={handleSaveProfile}>Save Changes</Button>
       </Box>
-      <Divider variant="middle" />
-      <Grid container spacing={2}>
-        <Grid item>
-          <Typography>Profile Page</Typography>
-          <Typography>This is a private page that can only be accessed by authenticated users.</Typography>
-        </Grid>
-      </Grid>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="Profile updated successfully!"
+        action={
+          <Button color="inherit" size="small" onClick={handleCloseSnackbar}>
+            Close
+          </Button>
+        }
+      />
     </Box>
   );
 };
