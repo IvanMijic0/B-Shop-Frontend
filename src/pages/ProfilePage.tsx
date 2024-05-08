@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Avatar, Box, Button, IconButton, TextField, Typography, Snackbar, Tooltip } from '@mui/material';
+import { Avatar, Box, Button, IconButton, TextField, Typography, Snackbar, Tooltip, Autocomplete } from '@mui/material';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+// import PlaceResult from 'react-google-autocomplete';
 import { RootState } from '../store';
 import { updateAvatar, updateProfile } from '../store/profileSlice';
 
@@ -33,7 +34,7 @@ const ProfilePage = () => {
   const handleSaveProfile = () => {
     dispatch(updateProfile({ bio, location, interests, avatarUrl: avatar }));
     setOpenSnackbar(true);
-    setEditMode(false); // Exit edit mode on save
+    setEditMode(false);
   };
 
   const handleCloseSnackbar = () => {
@@ -93,44 +94,47 @@ const ProfilePage = () => {
         }}
       >
         {editMode ? (
-          <>
-            <TextField
-              label="Bio"
-              multiline
-              rows={4}
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              variant="outlined"
-              fullWidth
-              sx={{ mt: 2 }}
-            />
-            <TextField
-              label="Location"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              variant="outlined"
-              fullWidth
-              sx={{ mt: 2 }}
-            />
-            <TextField
-              label="Interests"
-              value={interests}
-              onChange={(e) => setInterests(e.target.value)}
-              variant="outlined"
-              fullWidth
-              sx={{ mt: 2, mb: 2 }}
-            />
-            <Button variant="contained" color="primary" onClick={handleSaveProfile}>
-              Save Changes
-            </Button>
-          </>
-        ) : (
-          <>
-            <Typography variant="body1" sx={{ mt: 2 }}><strong>Bio:</strong> {bio}</Typography>
-            <Typography variant="body1" sx={{ mt: 2 }}><strong>Location:</strong> {location}</Typography>
-            <Typography variant="body1" sx={{ mt: 2 }}><strong>Interests:</strong> {interests}</Typography>
-          </>
-        )}
+  <>
+    <TextField
+      label="Bio"
+      multiline
+      rows={4}
+      value={bio}
+      onChange={(e) => setBio(e.target.value)}
+      variant="outlined"
+      fullWidth
+      sx={{ mt: 2 }}
+    />
+    {/* <Autocomplete
+      style={{ width: '100%', marginTop: 16 }}
+      onPlaceSelected={(place: PlaceResult) => {
+        setLocation(place.formatted_address);
+      }}
+      types={['(regions)']}
+      componentRestrictions={{country: "us"}}
+      apiKey={import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+      defaultValue={location}
+    /> */}
+    <TextField
+      label="Interests"
+      value={interests}
+      onChange={(e) => setInterests(e.target.value)}
+      variant="outlined"
+      fullWidth
+      sx={{ mt: 2, mb: 2 }}
+    />
+    <Button variant="contained" color="primary" onClick={handleSaveProfile}>
+      Save Changes
+    </Button>
+  </>
+) : (
+  <>
+    <Typography variant="body1" sx={{ mt: 2 }}><strong>Bio:</strong> {bio}</Typography>
+    <Typography variant="body1" sx={{ mt: 2 }}><strong>Location:</strong> {location}</Typography>
+    <Typography variant="body1" sx={{ mt: 2 }}><strong>Interests:</strong> {interests}</Typography>
+  </>
+)}
+
       </Box>
       <Snackbar
         open={openSnackbar}
