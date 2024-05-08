@@ -3,11 +3,13 @@ import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 import authReducer from './authSlice';
 import cartReducer from './cartSlice';
+import profileReducer from './profileSlice';
 
 const store = configureStore({
     reducer: {
       auth: authReducer,
       cart: cartReducer,
+      profile: profileReducer,
     },
   });
 
