@@ -10,7 +10,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch(); 
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.auth.userInfo);
   const error = useSelector((state: RootState) => state.auth.error);
 
   useEffect(() => {
@@ -21,7 +21,8 @@ const LoginPage = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    dispatch(login({ email, password }));
+    // Map email to identifier for the backend
+    dispatch(login({ identifier: email, password }));
   };
 
   return (

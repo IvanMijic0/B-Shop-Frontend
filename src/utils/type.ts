@@ -17,3 +17,16 @@ export interface Product {
     image: string;
     subcategoryId: number;
 }
+
+export interface LoginFormData {
+    identifier: string;
+    password: string;
+}
+
+export interface RegistrationFormData {
+    fullName: string;
+    username: string;
+    email: string;
+    password: string;
+    phoneNumber:number;
+}
