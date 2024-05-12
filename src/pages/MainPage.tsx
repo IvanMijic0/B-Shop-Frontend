@@ -74,7 +74,7 @@ const MainPage = () => {
                         <CardMedia
                             component="img"
                             sx={{ height: 200, objectFit: 'contain', padding: 1 }}
-                            image={product.image}
+                            image={product.images[0]}
                             alt={product.name}
                         />
                         <CardContent>
