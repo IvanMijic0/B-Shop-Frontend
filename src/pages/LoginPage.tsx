@@ -11,18 +11,19 @@ const LoginPage = () => {
   const dispatch = useAppDispatch(); 
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.userInfo);
+  const userToken = useSelector((state: RootState) => state.auth.userToken); // Now properly defined
   const error = useSelector((state: RootState) => state.auth.error);
 
   useEffect(() => {
-    if (user) {
+    if (userToken ) {
       navigate('/profile');
     }
-  }, [user, navigate]);
+  }, [userToken, navigate]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     // Map email to identifier for the backend
-    dispatch(login({ identifier: email, password }));
+    dispatch(login({ identifier: email , password }));
   };
 
   return (

@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://b-shop-api-5ntn.onrender.com'
+export const BASE_URL = 'https://b-shop-api-5ntn.onrender.com/api'
