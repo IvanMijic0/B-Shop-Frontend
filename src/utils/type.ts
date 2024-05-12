@@ -23,10 +23,12 @@ export interface LoginFormData {
     password: string;
 }
 
+// In your types definition file
 export interface RegistrationFormData {
     fullName: string;
     username: string;
     email: string;
     password: string;
-    phoneNumber:number;
+    phoneNumber: string; 
 }
+

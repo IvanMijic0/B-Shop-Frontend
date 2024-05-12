@@ -68,6 +68,7 @@ const authSlice = createSlice({
             state.userInfo = null
             state.userToken = null
             state.error = null
+            state.success = false
         }
     },
     extraReducers: (builder) => {
@@ -97,6 +98,7 @@ const authSlice = createSlice({
       builder.addCase(registerUser.fulfilled, (state) => {
           state.loading = false
           state.success = true
+          state.error = null
       })
       builder.addCase(registerUser.rejected, (state, action: any) => {
           state.loading = false

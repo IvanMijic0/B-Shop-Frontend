@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, RootState } from '../store';
 import { registerUser } from '../store/authSlice';
 import { useSelector } from 'react-redux';
 import { RegistrationFormData } from '../utils/type';
 import { Button, TextField, Box, Typography, Container } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationPage = () => {
     const [formData, setFormData] = useState<RegistrationFormData>({
@@ -11,7 +12,7 @@ const RegistrationPage = () => {
         username: '',
         email: '',
         password: '',
-        phoneNumber: 0,
+        phoneNumber: '',
     });
     const dispatch = useAppDispatch();
     const { error, loading, success } = useSelector((state: RootState) => state.auth);
@@ -22,6 +23,15 @@ const RegistrationPage = () => {
             [e.target.name]: e.target.value
         });
     };
+
+    const navigate = useNavigate();
+useEffect(() => {
+    if (success) {
+        // Optionally reset form here or give a message to the user
+        navigate('/login'); // Redirect to login page
+    }
+}, [success, navigate]);
+
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -39,10 +49,10 @@ const RegistrationPage = () => {
                         margin="normal"
                         required
                         fullWidth
-                        id="firstName"
-                        label="First Name"
-                        name="firstName"
-                        autoComplete="fname"
+                        id="fullName"
+                        label="Full Name"
+                        name="fullName"
+                        autoComplete="fullName"
                         autoFocus
                         value={formData.fullName}
                         onChange={handleChange}
@@ -51,10 +61,10 @@ const RegistrationPage = () => {
                         margin="normal"
                         required
                         fullWidth
-                        id="lastName"
-                        label="Last Name"
-                        name="lastName"
-                        autoComplete="lname"
+                        id="username"
+                        label="Username"
+                        name="username"
+                        autoComplete="username"
                         value={formData.username}
                         onChange={handleChange}
                     />
