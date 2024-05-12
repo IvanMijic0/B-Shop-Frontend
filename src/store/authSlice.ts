@@ -22,14 +22,15 @@ const initialState = {
 
 export const login = createAsyncThunk(
   'auth/login',
-  async (body: LoginFormData, { rejectWithValue }) => {
+  async (data: LoginFormData, { rejectWithValue }) => {
       try {
-          const { data } = await appAxios.post(
-              '/auth/login',
-              body,
-          )
-          localStorage.setItem('userToken', data.jwt_access_token)
-          return data
+        const response = await appAxios.post('/auth/login', {
+            identifier: data.identifier,
+            password: data.password
+        });
+        const { jwt_access_token, user } = response.data;  // Make sure the keys are correctly named
+        localStorage.setItem('userToken', jwt_access_token); // Store the JWT in localStorage
+        return { user, jwt: jwt_access_token };  
       } catch (error: any) {
           // return custom error message from backend if present
           if (error.response && error.response.data.message) {
@@ -79,11 +80,14 @@ const authSlice = createSlice({
             state.loading = false
             state.userInfo = action.payload.user
             state.userToken = action.payload.jwt
+            state.error = null
         })
         builder.addCase(login.rejected, (state, action: any) => {
-            state.loading = false
-            state.error = action.payload
-        })
+            state.loading = false;
+            state.error = action.payload;
+            state.userToken = null; // Ensure token is null if login fails
+            state.userInfo = null; // Clear user info on failure
+        });
 
          // Register user
          builder.addCase(registerUser.pending, (state) => {
