@@ -1,11 +1,9 @@
-import { useState } from 'react'
+import React from 'react'
 
-
-//import './App.css'
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
 import MainPage from './pages/MainPage';
-import ProductPage from './pages/ProductPage';
+import ProductPage from './pages/Product/ProductPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import CartPage from './pages/CartPage';

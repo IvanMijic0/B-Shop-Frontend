@@ -1,9 +1,12 @@
 // src/pages/ProductPage.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addToCart } from '../store/cartSlice';
-import products from '../data/data'; // Adjust the path as needed
+import { addToCart } from '../../store/cartSlice';
+import products from '../../data/data';
+import Gallery from "./Gallery";
+import Description from "./Description";
+import MobileGallery from "./MobileGallery";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -19,6 +22,21 @@ const ProductPage = () => {
       }));
     }
   };
+  const [quant, setQuant] = useState(0);
+  const [orderedQuant, setOrderedQuant] = useState(0);
+
+  const addQuant = () => {
+    setQuant(quant + 1);
+  };
+
+  const removeQuant = () => {
+    setQuant(quant - 1);
+  };
+
+  const resetQuant = () => {
+    setQuant(0);
+    setOrderedQuant(0);
+  };
 
   const handleBuyNow = () => {
     handleAddToCart();  
@@ -27,7 +45,15 @@ const ProductPage = () => {
 
   return (
     <div>
-      {product ? (
+      <Gallery />
+          <MobileGallery />
+          <Description
+            onQuant={quant}
+            onAdd={addQuant}
+            onRemove={removeQuant}
+            onSetOrderedQuant={setOrderedQuant}
+          />
+      {/* {product ? (
         <div>
           <h1>{product.name}</h1>
           <img src={product.image} alt={product.name} style={{ maxWidth: '100%' }} />
@@ -38,7 +64,7 @@ const ProductPage = () => {
         </div>
       ) : (
         <p>Product not found</p>
-      )}
+      )} */}
     </div>
   );
 }
