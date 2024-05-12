@@ -13,6 +13,10 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const product = products.find(p => p.id === Number(id));
 
+  const [quant, setQuant] = useState(1);
+
+  const [orderedQuant, setOrderedQuant] = useState(0);
+
   const handleAddToCart = (quantity: number) => {
     if (product && quantity > 0) {
       dispatch(addToCart({
@@ -28,10 +32,6 @@ const ProductPage = () => {
     handleAddToCart(quantity);  
     navigate('/checkout');  
   };
-
-  const [quant, setQuant] = useState(1);
-
-  const [orderedQuant, setOrderedQuant] = useState(0);
 
   const addQuant = () => {
     setQuant(quant + 1);
@@ -61,8 +61,8 @@ const ProductPage = () => {
             onAdd={addQuant}
             onRemove={removeQuant}
             onSetOrderedQuant={setOrderedQuant}
-            handleBuyNow={handleBuyNow}
-            handleAddToCart={handleAddToCart}
+            handleBuyNow={() => handleBuyNow(quant)}  // Passing quantity directly
+            handleAddToCart={() => handleAddToCart(quant)}
           />
     </div>
   );
