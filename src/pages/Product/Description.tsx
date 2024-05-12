@@ -1,34 +1,42 @@
 import React from "react";
 import CartIcon from "./Icons/CartIcon";
 import QuantityButton from "./QuantityButton";
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
-const Description = ({ onQuant, onAdd, onRemove, onSetOrderedQuant }) => {
+const Description = ({ productDetails, onQuant, onAdd, onRemove, onSetOrderedQuant, handleBuyNow, handleAddToCart }) => {
   return (
     <section className="description">
-      <p className="pre">sneaker company</p>
-      <h1>fall limited edition sneakers</h1>
+      {/* <p className="pre">sneaker company</p> */}
+      <h1>{productDetails.name}</h1>
       <p className="desc">
-        These low-profile sneakers are your perfect casual wear companion.
-        Featuring a durable rubber outer sole, they’ll withstand everything the
-        weather can offer
+        {productDetails.description}
       </p>
       <div className="price">
         <div className="main-tag">
-          <p>$125.00</p>
-          <p>50%</p>
+          <p>{productDetails.price} $</p>
+          {productDetails.discount && <p>{productDetails.discount}</p>}
         </div>
-        <s>$250.00</s>
+        {productDetails.discount && <s>{productDetails?.discountPriceWere}</s>}
       </div>
       <div className="buttons">
         <QuantityButton onQuant={onQuant} onRemove={onRemove} onAdd={onAdd} />
         <button
           className="add-to-cart"
           onClick={() => {
-            onSetOrderedQuant(onQuant);
+            handleAddToCart(onQuant);
           }}
         >
           <CartIcon />
           add to cart
+        </button>
+        <button
+          className="add-to-cart buy-now"
+          onClick={() => {
+            handleBuyNow(onQuant);
+          }}
+        >
+          <AttachMoneyIcon/>
+          buy now
         </button>
       </div>
     </section>

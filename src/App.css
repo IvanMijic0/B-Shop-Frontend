@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap");
 :root {
-  --orange: hsl(26, 100%, 55%);
+  --blue: rgb(24, 118, 209); 
   --pale-orange: hsl(25, 100%, 94%);
   --vd-blue: hsl(220, 13%, 13%);
   --d-grayish-blue: rgb(104, 112, 125);
@@ -34,7 +34,7 @@ button {
   height: 100%;
   width: 100%;
   z-index: 99;
-  border: 3px solid var(--orange);
+  border: 3px solid var(--blue);
   border-radius: 10px;
   background-color: #e3dfdfab;
 }
@@ -122,7 +122,7 @@ header nav .left ul li::before {
   left: 0;
   height: 3px;
   width: 100%;
-  background-color: var(--orange);
+  background-color: var(--blue);
   opacity: 0;
   transition: 0.2s;
 }
@@ -159,7 +159,7 @@ header nav .right img {
 }
 
 header nav .right img.avatar:hover {
-  border: 2px solid var(--orange);
+  border: 2px solid var(--blue);
   border-radius: 50%;
 }
 
@@ -262,7 +262,7 @@ header nav .right .cart .product .delete-button img {
 header nav .right .cart button.checkout {
   padding: 15px 20px;
   color: #fff;
-  background-color: var(--orange);
+  background-color: var(--blue);
   width: 100%;
   text-transform: capitalize;
   font-weight: 700;
@@ -312,7 +312,7 @@ header nav .right .cart button.checkout:hover {
 }
 
 .description p.pre {
-  color: var(--orange);
+  color: var(--blue);
   text-transform: uppercase;
   font-weight: 700;
   font-size: 14px;
@@ -382,7 +382,7 @@ header nav .right .cart button.checkout:hover {
 }
 
 .description .price .main-tag p:last-of-type {
-  color: var(--orange);
+  color: var(--blue);
   background-color: var(--pale-orange);
   padding: 3px 10px;
   border-radius: 5px;
@@ -440,7 +440,7 @@ header nav .right .cart button.checkout:hover {
 
 .description .buttons .add-to-cart {
   padding: 15px 40px;
-  background-color: var(--orange);
+  background-color: var(--blue);
   color: #fff;
   text-transform: capitalize;
   font-weight: 700;
@@ -481,6 +481,11 @@ header nav .right .cart button.checkout:hover {
   border-radius: 10px;
   cursor: pointer;
 }
+
+.product-page-con{
+  margin: 2vh 5vw;
+}
+
 @media (max-width: 992px) {
   .gallery .image img {
     height: 350px;
