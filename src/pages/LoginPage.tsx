@@ -10,7 +10,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch(); 
   const navigate = useNavigate();
-  const user = useSelector((state: RootState) => state.auth.userInfo);
   const userToken = useSelector((state: RootState) => state.auth.userToken); // Now properly defined
   const error = useSelector((state: RootState) => state.auth.error);
 
