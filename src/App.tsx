@@ -9,7 +9,6 @@ import ProductPage from './pages/ProductPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import CartPage from './pages/CartPage';
-import MyProductsPage from './pages/MyProductsPage';
 //import {About,AdminPanel,Cars,Home,Login,MyGarage,NotFound, Registration} from './pages'
 
 import Navbar from './components/Navbar';
@@ -34,7 +33,6 @@ const App = () => {
           <Route path="/purchase-confirmation" element={<PurchaseConfirmationPage />} />
           
           <Route element={<ProtectedRoute />}>
-        <Route path="/myProducts" element={<MyProductsPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         {/* add any other protected routes here */}
         </Route>
