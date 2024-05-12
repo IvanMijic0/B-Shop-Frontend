@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 
-type Props = {}
 
-const MyProductsPage = (props: Props) => {
+
+const MyProductsPage = () => {
     return (
         <div className="d-flex align-items-center justify-content-center vh-100">
           <p className="lead">
