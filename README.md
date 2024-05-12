@@ -6,3 +6,6 @@ React + TypeScript + Vite
 - cd B-Shop-Frontend
 - npm install
 - npm run dev
+
+
+Hosted website: https://b-shop-frontend.onrender.com/
