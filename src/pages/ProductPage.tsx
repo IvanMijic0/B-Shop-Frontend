@@ -1,5 +1,4 @@
 // src/pages/ProductPage.tsx
-import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../store/cartSlice';
@@ -21,8 +20,8 @@ const ProductPage = () => {
   };
 
   const handleBuyNow = () => {
-    handleAddToCart();  
-    navigate('/checkout');  
+    handleAddToCart();
+    navigate('/checkout');
   };
 
   return (

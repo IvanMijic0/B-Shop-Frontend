@@ -4,25 +4,18 @@ import App from './App.tsx'
 //import './index.css'
 
 import { BrowserRouter } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { Provider } from 'react-redux';
 import store from './store'
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-    },
-  },
- });
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-   <BrowserRouter>
+    <BrowserRouter>
       <Provider store={store}>
         <App />
       </Provider>
-   </BrowserRouter>
+    </BrowserRouter>
   </React.StrictMode>,
 )

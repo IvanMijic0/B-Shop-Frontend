@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom"
 
-type Props = {}
 
-const NotFound = (props: Props) => {
+const NotFound = () => {
     return (
         <div className="d-flex align-items-center justify-content-center vh-100">
             <div className="text-center">
