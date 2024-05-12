@@ -9,3 +9,9 @@ React + TypeScript + Vite
 
 
 Hosted website: https://b-shop-frontend.onrender.com/
+
+
+Test user:
+
+Email/username: testuser101
+Password:  VicbQ^5AP^&mn5^
