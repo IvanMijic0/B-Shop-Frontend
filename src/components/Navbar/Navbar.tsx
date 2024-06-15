@@ -8,7 +8,7 @@ import { logout } from '../../store/authSlice';
 import './Navbar.css';
 
 const Navbar = () => {
-    const user = useSelector((state: RootState) => state.auth.user);
+    const { userToken } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -38,10 +38,10 @@ const Navbar = () => {
                     </Typography>
                     <Button color="inherit" component={Link} to="/">Home</Button>
 
-                    {user ? (
+                    {userToken ? (
                         <>
                             <Typography variant="subtitle1" component="div" aria-haspopup="true" onMouseOver={handleMenu} style={{ cursor: 'pointer' }}>
-                                Welcome, {user.name}
+                                Welcome,user
                             </Typography>
                             <Menu
                                 id="menu-appbar"

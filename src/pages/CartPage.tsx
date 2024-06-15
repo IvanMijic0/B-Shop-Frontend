@@ -1,5 +1,4 @@
 // src/pages/CartPage.tsx
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
