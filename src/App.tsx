@@ -7,7 +7,6 @@ import ProductPage from "./pages/Product/ProductPage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import CartPage from "./pages/CartPage";
-import AddNewProductOnSaleModal from "./pages/modal/AddNewProductOnSaleModal";
 //import {About,AdminPanel,Cars,Home,Login,MyGarage,NotFound, Registration} from './pages'
 
 import Navbar from "./components/Navbar";
@@ -31,7 +30,6 @@ const App = () => {
           path="/purchase-confirmation"
           element={<PurchaseConfirmationPage />}
         />
-        <Route path="/addNew" element={<AddNewProductOnSaleModal />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<ProfilePage />} />
         </Route>

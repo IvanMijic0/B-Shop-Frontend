@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL } from '../constants';
+import { useNavigate } from 'react-router-dom';
 
 const appAxios = axios.create({
   baseURL: BASE_URL,
@@ -15,6 +16,17 @@ appAxios.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+appAxios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('userToken');
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );
