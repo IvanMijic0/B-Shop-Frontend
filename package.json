@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@bytescale/upload-widget": "^4.27.0",
+    "@bytescale/upload-widget-react": "^4.19.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@hookform/resolvers": "^3.3.4",
@@ -17,6 +19,7 @@
     "@mui/material": "^5.15.16",
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
+    "cloudinary": "^2.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-google-autocomplete": "^2.7.3",
