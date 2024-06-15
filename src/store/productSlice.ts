@@ -20,7 +20,11 @@ export const fetchProducts = createAsyncThunk(
 
 export const fetchCategories = createAsyncThunk(
   'categories/fetchCategories',
-  async (_, { rejectWithValue }) => {
+  async (_, { getState, rejectWithValue }) => {
+    const { categories } = (getState() as RootState).categories;
+    if (categories.length > 0) {
+      return categories;
+    }
     try {
       const response = await appAxios.get<Category[]>('/categories');
       return response.data;
