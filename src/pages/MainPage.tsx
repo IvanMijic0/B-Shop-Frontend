@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import {
   Typography, Grid, Card, CardActionArea,
   CardMedia, CardContent, TextField, FormControl, InputLabel, Select, MenuItem, OutlinedInput, Checkbox, ListItemText,
-  Button
+  Button, CircularProgress,
+  Snackbar
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store';
+import { fetchProducts, fetchCategories } from '../store/productSlice';
 import AddNewProductOnSaleModal from './modal/AddNewProductOnSaleModal';
-
-import products from '../data/data';
-import categories from '../data/categories';
+import { Product } from '../utils/type';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -21,23 +23,25 @@ const MenuProps = {
   },
 };
 
-const MainPage = () => {
+const MainPage: React.FC = () => {
   const navigate = useNavigate();
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const dispatch = useDispatch();
+  const { products, loading: productsLoading, error: productsError } = useSelector((state: RootState) => state.products);
+  const { categories, loading: categoriesLoading, error: categoriesError } = useSelector((state: RootState) => state.categories);
+
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [open, setOpen] = useState(false);
 
-  const subcategoryToCategoryMap: { [key: number]: number } = {};
-  categories.forEach(category => {
-    category.subcategories.forEach(subcategory => {
-      subcategoryToCategoryMap[subcategory.id] = category.id;
-    });
-  });
+  useEffect(() => {
+    dispatch(fetchProducts());
+    dispatch(fetchCategories());
+  }, [dispatch]);
 
   useEffect(() => {
     filterProducts();
-  }, [searchTerm, selectedCategories]);
+  }, [searchTerm, selectedCategories, products]);
 
   const handleOpenModal = () => {
     setOpen(true);
@@ -49,17 +53,23 @@ const MainPage = () => {
 
   const filterProducts = () => {
     let filtered = products;
-
+  
     if (selectedCategories.length > 0) {
-      filtered = filtered.filter(p => selectedCategories.includes(subcategoryToCategoryMap[p.subcategoryId]));
+      filtered = filtered.filter(p => {
+        const categoryId = p.category_id;
+        const isSelectedCategory = categoryId !== undefined && selectedCategories.includes(categoryId);
+        return isSelectedCategory;
+      });
     }
-
+  
     if (searchTerm) {
       filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }
-
+  
     setFilteredProducts(filtered);
   };
+  
+  
 
   const handleCategoryChange = (event) => {
     const { target: { value } } = event;
@@ -71,6 +81,26 @@ const MainPage = () => {
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  if (productsLoading || categoriesLoading) {
+    return <CircularProgress sx={{ margin: 'auto', display: 'block', justifyContent: 'center', alignItems: 'center' }} />;
+  }
+
+  if (productsError) {
+    return (
+      <Snackbar slot="span">
+        <Typography>{productsError}</Typography>
+      </Snackbar>
+    );
+  }
+
+  if (categoriesError) {
+    return (
+      <Snackbar slot="span">
+        <Typography>{categoriesError}</Typography>
+      </Snackbar>
+    );
+  }
 
   return (
     <div style={{ margin: 'auto', maxWidth: 1280, padding: '20px' }}>
@@ -112,7 +142,7 @@ const MainPage = () => {
                 <CardMedia
                   component="img"
                   sx={{ height: 200, objectFit: 'contain', padding: 1 }}
-                  image={product.images[0]}
+                  image={product.image_url}
                   alt={product.name}
                 />
                 <CardContent>

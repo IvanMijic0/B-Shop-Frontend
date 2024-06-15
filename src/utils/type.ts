@@ -6,16 +6,21 @@ export interface Subcategory {
 export interface Category {
     id: number;
     name: string;
-    subcategories: Subcategory[];
+    description: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export interface Product {
     id: number;
+    category_id: number;
+    seller_id: number;
     name: string;
     description: string;
     price: number;
-    image: string;
-    subcategoryId: number;
+    created_at: string;
+    updated_at: string;
+    image_url: string;
 }
 
 export interface LoginFormData {

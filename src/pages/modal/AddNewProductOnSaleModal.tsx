@@ -4,13 +4,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import { AddNewProductOnSaleModalProps } from '../../utils/type'
+
 const options = {
   apiKey: import.meta.env.VITE_BYTESCALE_SECRETAPI_KEY,
   maxFileCount: 10,
 };
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
