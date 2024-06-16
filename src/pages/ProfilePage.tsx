@@ -1,38 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Avatar, Box, Button, IconButton, TextField, Typography, Snackbar, Tooltip } from '@mui/material';
-import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-// import PlaceResult from 'react-google-autocomplete';
 import { RootState } from '../store';
-import { updateAvatar, updateProfile } from '../store/profileSlice';
+import { updateProfile, setProfile } from '../store/profileSlice';
+import { getUserFromToken } from '../utils/getUserFromToken';
 
 const ProfilePage = () => {
-  const user = useSelector((state: RootState) => state.profile);
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.profile);
+
+  useEffect(() => {
+    const userToken = getUserFromToken();
+    const { user } = userToken;
+    console.log('user info', user);
+    
+    if (user) {
+      dispatch(setProfile({
+        username: user.username,
+        email: user.email,
+        // hardcoded part
+        avatarUrl: '/img/avatar.png',
+        bio: 'some bio text here',
+        location: 'Somewhere, World',
+        interests: 'Food, Music, Travel',
+      }));
+    }
+  }, [dispatch]);
+
   const [editMode, setEditMode] = useState(false);
-  const [avatar, setAvatar] = useState(user.avatarUrl);
   const [bio, setBio] = useState(user.bio);
   const [location] = useState(user.location);
   const [interests, setInterests] = useState(user.interests);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file && (file.type === "image/jpeg" || file.type === "image/png")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setAvatar(result);
-        dispatch(updateAvatar(result));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSaveProfile = () => {
-    dispatch(updateProfile({ bio, location, interests, avatarUrl: avatar }));
+    dispatch(updateProfile({ bio, location, interests }));
     setOpenSnackbar(true);
     setEditMode(false);
   };
@@ -58,24 +62,9 @@ const ProfilePage = () => {
           borderRadius: '5px',
         }}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', cursor: 'pointer' }}>
-          <input
-            accept="image/jpeg,image/png"
-            style={{ display: 'none' }}
-            id="raised-button-file"
-            type="file"
-            onChange={handleAvatarChange}
-          />
-          <label htmlFor="raised-button-file" style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-            <IconButton color="primary" aria-label="upload picture" component="span">
-              <PhotoCamera />
-            </IconButton>
-            <Typography variant="body1" sx={{ ml: 1 }}>Change Avatar</Typography>
-          </label>
-        </Box>
         <Avatar
           alt={user.username ? user.username : 'Avatar'}
-          src={avatar}
+          src={user.avatarUrl}
           sx={{ width: 56, height: 56, mt: 2 }}
         />
         <Typography sx={{ mt: 2 }}>Hello, {user.username ? user.username : 'No User Logged In'}! 👋</Typography>
@@ -105,16 +94,6 @@ const ProfilePage = () => {
               fullWidth
               sx={{ mt: 2 }}
             />
-            {/* <Autocomplete
-      style={{ width: '100%', marginTop: 16 }}
-      onPlaceSelected={(place: PlaceResult) => {
-        setLocation(place.formatted_address);
-      }}
-      types={['(regions)']}
-      componentRestrictions={{country: "us"}}
-      apiKey={import.meta.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-      defaultValue={location}
-    /> */}
             <TextField
               label="Interests"
               value={interests}
@@ -134,7 +113,6 @@ const ProfilePage = () => {
             <Typography variant="body1" sx={{ mt: 2 }}><strong>Interests:</strong> {interests}</Typography>
           </>
         )}
-
       </Box>
       <Snackbar
         open={openSnackbar}
@@ -152,4 +130,3 @@ const ProfilePage = () => {
 };
 
 export default ProfilePage;
-

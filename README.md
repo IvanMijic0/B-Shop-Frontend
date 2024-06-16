@@ -14,3 +14,9 @@ Hosted website: https://b-shop-frontend.onrender.com/
 Test user:
 - Email/username: testuser101
 - Password:  VicbQ^5AP^&mn5^
+
+```env
+VITE_BYTESCALE_PUBLIC_API_KEY=...
+VITE_BYTESCALE_SECRETAPI_KEY=...
+VITE_BYTESCALE_ACC_ID=...
+```

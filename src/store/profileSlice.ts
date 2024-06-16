@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ProfileState {
   username: string;
@@ -10,30 +9,27 @@ interface ProfileState {
   interests: string;
 }
 
-
 const initialState: ProfileState = {
-  username: "Alice",
-  email: "alice@example.com",
-  avatarUrl: "/img/avatar.png", 
-  bio: "some bio text here",
-  location: "Somewhere, World",
-  interests: "Food, Music, Travel",
+  username: '',
+  email: '',
+  avatarUrl: '',
+  bio: '',
+  location: '',
+  interests: '',
 };
 
 const profileSlice = createSlice({
-  name: "profile",
+  name: 'profile',
   initialState,
   reducers: {
     setProfile: (state, action: PayloadAction<ProfileState>) => {
       return { ...state, ...action.payload };
     },
-
     updateAvatar: (state, action: PayloadAction<string>) => {
-      state.avatarUrl = action.payload; 
+      state.avatarUrl = action.payload;
     },
-
     updateUsername: (state, action: PayloadAction<string>) => {
-      state.username = action.payload; 
+      state.username = action.payload;
     },
     updateEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
@@ -43,7 +39,6 @@ const profileSlice = createSlice({
     },
   },
 });
-
 
 export const { setProfile, updateAvatar, updateUsername, updateEmail, updateProfile } = profileSlice.actions;
 
