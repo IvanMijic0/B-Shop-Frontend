@@ -1,6 +1,7 @@
+// In your Redux slice file
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import appAxios from '../services/appAxios';
-import { Product, Category } from '../utils/type';
+import { Product, Category, NewProduct } from '../utils/type';
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -29,6 +30,22 @@ export const fetchCategories = createAsyncThunk(
       const response = await appAxios.get<Category[]>('/categories');
       return response.data;
     } catch (error: any) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const addProduct = createAsyncThunk(
+  'products/addProduct',
+  async (newProduct: NewProduct, { rejectWithValue }) => {
+    try {
+      const response = await appAxios.post<Product>('/products', newProduct);
+      return response.data;
+    } catch (error: any | unknown) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);
       } else {
@@ -77,6 +94,13 @@ const productSlice = createSlice({
         state.products = action.payload;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.products.push(action.payload);
+      })
+      .addCase(addProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

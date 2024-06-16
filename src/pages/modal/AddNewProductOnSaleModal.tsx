@@ -11,7 +11,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../store';
-import { fetchCategories } from '../../store/productSlice';
+import { fetchCategories, addProduct, fetchProducts } from '../../store/productSlice';
 import { AddNewProductOnSaleModalProps } from '../../utils/type';
 import { getUserFromToken } from '../../utils/getUserFromToken';
 import { CircularProgress, Snackbar } from '@mui/material';
@@ -39,10 +39,10 @@ const AddNewProductOnSaleModal: React.FC<AddNewProductOnSaleModalProps> = ({ ope
   const { categories, loading: categoriesLoading, error: categoriesError } = useSelector((state: RootState) => state.categories);
 
   const [productName, setProductName] = useState('');
-  const [price, setPrice] = useState('');
+  const [price, setPrice] = useState<number | string>('');
   const [description, setDescription] = useState('');
   const [images, setImages] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<number | string>('');
 
   useEffect(() => {
     if (open && categories.length === 0) {
@@ -54,17 +54,27 @@ const AddNewProductOnSaleModal: React.FC<AddNewProductOnSaleModalProps> = ({ ope
     setImages(files.map(file => file.fileUrl));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (typeof price === 'string') {
+      setPrice(parseFloat(price));
+    }
+
     const newProduct = {
       name: productName,
       description,
-      price: parseFloat(price),
-      images,
-      category_id: selectedCategory,
-      user_id: user?.id,
+      price: price as number,  // ensure price is a number
+      image_url: images[0],
+      category_id: selectedCategory as number,  // ensure selectedCategory is a number
+      seller_id: user?.id as number,  // ensure user id is defined and a number
     };
-    console.log(newProduct);
-    // TODO: Add new product to the database.
+
+    try {
+      await dispatch(addProduct(newProduct)).unwrap();
+      dispatch(fetchProducts());
+      handleClose();
+    } catch (error) {
+      console.error('Failed to add product:', error);
+    }
   };
 
   if (categoriesLoading) {
@@ -73,9 +83,10 @@ const AddNewProductOnSaleModal: React.FC<AddNewProductOnSaleModalProps> = ({ ope
 
   if (categoriesError) {
     return (
-    <Snackbar slot="span">
-      <Typography>{categoriesError}</Typography>
-    </Snackbar>)
+      <Snackbar slot="span">
+        <Typography>{categoriesError}</Typography>
+      </Snackbar>
+    );
   }
 
   return (
@@ -100,7 +111,7 @@ const AddNewProductOnSaleModal: React.FC<AddNewProductOnSaleModalProps> = ({ ope
           />
           <TextField
             fullWidth
-            label="Price"
+            label="Price in $"
             variant="outlined"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
@@ -123,7 +134,7 @@ const AddNewProductOnSaleModal: React.FC<AddNewProductOnSaleModalProps> = ({ ope
               id="category-select"
               value={selectedCategory}
               label="Category"
-              onChange={(e) => setSelectedCategory(e.target.value)}
+              onChange={(e) => setSelectedCategory(Number(e.target.value))}
             >
               {categories.map((category) => (
                 <MenuItem key={category.id} value={category.id}>
