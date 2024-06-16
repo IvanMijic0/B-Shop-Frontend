@@ -1,4 +1,3 @@
-// In your Redux slice file
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import appAxios from '../services/appAxios';
 import { Product, Category, NewProduct } from '../utils/type';

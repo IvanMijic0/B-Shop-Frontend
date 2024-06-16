@@ -8,21 +8,20 @@ import { Button, TextField, Box, Typography, Container } from '@mui/material';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const dispatch = useAppDispatch(); 
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const userToken = useSelector((state: RootState) => state.auth.userToken); // Now properly defined
+  const userToken = useSelector((state: RootState) => state.auth.userToken);
   const error = useSelector((state: RootState) => state.auth.error);
 
   useEffect(() => {
-    if (userToken ) {
+    if (userToken) {
       navigate('/profile');
     }
   }, [userToken, navigate]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // Map email to identifier for the backend
-    dispatch(login({ identifier: email , password }));
+    dispatch(login({ identifier: email, password }));
   };
 
   return (
@@ -74,7 +73,7 @@ const LoginPage = () => {
             Sign In
           </Button>
           {error && (
-            <Typography color="error" variant="body2">
+            <Typography color="error" variant="body2" role="alert">
               {error}
             </Typography>
           )}

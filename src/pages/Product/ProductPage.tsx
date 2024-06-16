@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../store/cartSlice';
+import { addToCart, createCart } from '../../store/cartSlice';
 import { fetchProducts } from '../../store/productSlice';
 import { RootState } from '../../store';
 import Gallery from "./Gallery";
@@ -37,8 +37,9 @@ const ProductPage = () => {
     }
   };
 
-  const handleBuyNow = (quantity: number) => {
+  const handleBuyNow = async (quantity: number) => {
     handleAddToCart(quantity);
+    await dispatch(createCart());
     navigate('/checkout');
   };
 
@@ -47,12 +48,7 @@ const ProductPage = () => {
   };
 
   const removeQuant = () => {
-    setQuant(quant - 1);
-  };
-
-  const resetQuant = () => {
-    setQuant(0);
-    setOrderedQuant(0);
+    setQuant(Math.max(quant - 1, 1));
   };
 
   if (loading) {
@@ -71,12 +67,8 @@ const ProductPage = () => {
 
   return (
     <div className='product-page-con'>
-      <Gallery
-        images={images}
-      />
-      <MobileGallery
-        images={images}
-      />
+      <Gallery images={images} />
+      <MobileGallery images={images} />
       <Description
         productDetails={product}
         onQuant={quant}

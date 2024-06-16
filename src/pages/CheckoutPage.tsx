@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import {
@@ -49,7 +49,7 @@ const CheckoutPage = () => {
     };
 
     const calculateTotal = () => {
-        return cartItems.reduce((total: number, item: { price: number; quantity: number; }) => total + item.price * item.quantity, 0).toFixed(2);
+        return cartItems.reduce((total: number, item) => total + (Number(item.price) * item.quantity), 0).toFixed(2);
     };
 
     const getStepContent = (step: number) => {
@@ -121,8 +121,6 @@ const CheckoutPage = () => {
                             onChange={(e) => setShippingDetails({ ...shippingDetails, country: e.target.value })}
                             sx={{ mb: 2 }}
                         />
-
-
                     </Box>
                 );
             case 1:
@@ -152,8 +150,6 @@ const CheckoutPage = () => {
                             onChange={(e) => setPaymentDetails({ ...paymentDetails, cvv: e.target.value })}
                             sx={{ mb: 2 }}
                         />
-
-
                     </Box>
                 );
             case 2:
@@ -161,15 +157,17 @@ const CheckoutPage = () => {
                     <Box>
                         <Typography variant="h6" sx={{ mb: 2 }}>Order Summary</Typography>
                         <List>
-                            <ListItem>
-                                <ListItemText primary="Products" secondary={`4 selected - $${calculateTotal()}`} />
-                            </ListItem>
-                            <ListItem>
-                                <ListItemText primary="Shipping" secondary="Plus taxes - $9.99" />
-                            </ListItem>
+                            {cartItems.map((item) => (
+                                <ListItem key={item.productId}>
+                                    <ListItemText
+                                        primary={item.name}
+                                        secondary={`Quantity: ${item.quantity} x $${Number(item.price).toFixed(2)}`}
+                                    />
+                                </ListItem>
+                            ))}
                             <Divider light />
                             <ListItem>
-                                <ListItemText primary="Total" secondary={`$${(parseFloat(calculateTotal()) + 9.99).toFixed(2)}`} />
+                                <ListItemText primary="Total" secondary={`$${calculateTotal()}`} />
                             </ListItem>
                         </List>
                         <Typography variant="h6" sx={{ mt: 4 }}>Shipment Details</Typography>
@@ -197,7 +195,6 @@ const CheckoutPage = () => {
         <Box sx={{ width: '100%' }}>
             <Grid container spacing={2}>
                 <Grid item xs={12} md={7}>
-
                     <Stepper activeStep={activeStep} alternativeLabel>
                         {steps.map((label) => (
                             <Step key={label}>
@@ -233,7 +230,7 @@ const CheckoutPage = () => {
                             <ListItem key={item.productId}>
                                 <ListItemText
                                     primary={item.name}
-                                    secondary={`Quantity: ${item.quantity} x $${item.price.toFixed(2)}`}
+                                    secondary={`Quantity: ${item.quantity} x $${Number(item.price).toFixed(2)}`}
                                 />
                             </ListItem>
                         ))}
@@ -245,10 +242,7 @@ const CheckoutPage = () => {
                 </Grid>
             </Grid>
         </Box>
-
     );
 };
 
 export default CheckoutPage;
-
-
